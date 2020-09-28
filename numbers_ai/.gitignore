@@ -5,5 +5,8 @@
 *.iml
 *.ipr
 
-## venv
+### Virtual environments ###
 /venv/
+
+## Python additional files ###
+__pycache__/
