@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import CanvasDraw from "react-canvas-draw";
 import {Button} from "@material-ui/core";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
+import {callRecognizeService} from "../api/imageAPI";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -17,24 +18,24 @@ const useStyles = makeStyles((theme) => ({
 
 const NumberCanvas = props => {
     const classes = useStyles();
-    let saveableCanvas;
+    let canvas;
 
     const handleClean = () => {
-        saveableCanvas.clear();
+        canvas.clear();
     }
 
     const handlePredict = () => {
-        saveableCanvas.hideGrid = true;
-
-        const data = saveableCanvas.canvasContainer.children[1].toDataURL();
-        console.log(data);
+        canvas.hideGrid = true;
+        const data = canvas.canvasContainer.children[1].toDataURL();
+        callRecognizeService("Mike", JSON.stringify(data).replace(/"/g, ""));
+        canvas.clear();
     }
 
     return (
         <div>
             <Paper className={classes.paper}>
                 <CanvasDraw
-                    ref={canvasDraw => (saveableCanvas = canvasDraw)}
+                    ref={canvasDraw => (canvas = canvasDraw)}
                     brushColor={"blue"}
                     lazyRadius={0}
                     canvasWidth={300}
