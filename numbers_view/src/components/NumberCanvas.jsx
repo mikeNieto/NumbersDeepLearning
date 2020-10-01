@@ -25,9 +25,13 @@ const NumberCanvas = props => {
     }
 
     const handlePredict = () => {
-        canvas.hideGrid = true;
         const data = canvas.canvasContainer.children[1].toDataURL();
-        callRecognizeService("Mike", JSON.stringify(data).replace(/"/g, ""));
+
+        const result = callRecognizeService("Mike", JSON.stringify(data).replace(/"/g, ""));
+        result.then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.error('error', error));
+
         canvas.clear();
     }
 

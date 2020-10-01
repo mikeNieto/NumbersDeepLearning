@@ -1,4 +1,4 @@
-export const callRecognizeService = (user, imageBase64) => {
+export const callRecognizeService = async (user, imageBase64) => {
     let myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -11,9 +11,5 @@ export const callRecognizeService = (user, imageBase64) => {
         redirect: 'follow'
     };
 
-    fetch("http://localhost:8080/images/recognize", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .catch(error => console.error('error', error));
-
+    return await fetch("http://localhost:8080/images/recognize", requestOptions)
 }

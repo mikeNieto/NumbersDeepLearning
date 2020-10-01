@@ -13,5 +13,7 @@ class ImageController(private val imageServices: ImageServices) {
     @PostMapping("/recognize")
     fun predictImage(@RequestBody imgToPredict: ImageToPredict) =
             imageServices.recognizeNumber(imgToPredict)
+//            ServerResponse.ok()
+//                    .body(BodyInserters.fromValue());
 
 }
