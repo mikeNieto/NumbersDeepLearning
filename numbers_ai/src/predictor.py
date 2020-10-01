@@ -1,7 +1,9 @@
+import os
+
 import numpy as np
 from tensorflow.keras.models import load_model
 
-cnn = load_model('./src/model/dcnn.h5')
+cnn = load_model(f'{os.path.dirname(os.path.abspath(__file__))}/model/dcnn.h5')
 
 
 def predict(matrix_value):
@@ -23,4 +25,3 @@ def predict_number(matrix_value):
     }
 
     return results
-
