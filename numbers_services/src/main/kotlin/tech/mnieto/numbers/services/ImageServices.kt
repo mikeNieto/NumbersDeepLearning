@@ -22,6 +22,7 @@ class ImageServices {
                     Mono.just(mapOf(
                             "predicted" to res["predicted"],
                             "accuracy" to res["accuracy"],
+                            "complete_prediction" to res["complete_prediction"],
                             "base64ImgGenerated" to imageModifiedMap["base64ImgGenerated"]
                     ))
                 }

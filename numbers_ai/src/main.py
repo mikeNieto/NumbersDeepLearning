@@ -30,7 +30,6 @@ def get_matrix_int(matrix_raw):
 class HelloWorld(Resource):
     def post(self):
         args = parser.parse_args()
-        print(args)
         abort_if_not_value_matrix(args)
 
         matrix = get_matrix_int(args[MATRIX_VALUE])

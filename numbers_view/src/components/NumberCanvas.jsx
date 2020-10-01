@@ -28,8 +28,12 @@ const NumberCanvas = props => {
         const data = canvas.canvasContainer.children[1].toDataURL();
 
         const result = callRecognizeService("Mike", JSON.stringify(data).replace(/"/g, ""));
-        result.then(response => response.text())
-            .then(result => console.log(result))
+        result.then(response => response.json())
+            .then(result =>  {
+                const {predicted} = result
+                console.log(result);
+                alert(predicted)
+            })
             .catch(error => console.error('error', error));
 
         canvas.clear();
