@@ -5,6 +5,8 @@ import CanvasDraw from "react-canvas-draw";
 import {Button} from "@material-ui/core";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import {callRecognizeService} from "../api/imageAPI";
+import {useSetRecoilState} from "recoil";
+import {userState} from "../App";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -16,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const NumberCanvas = ({handleNewResult}) => {
+const NumberCanvas = () => {
+    const setUserResult = useSetRecoilState(userState);
     const classes = useStyles();
     let canvas;
 
@@ -24,8 +27,15 @@ const NumberCanvas = ({handleNewResult}) => {
         canvas.clear();
     }
 
-    const createData = (image, imgProcessed, prediction, accuracy) => {
+    const createResult = (image, imgProcessed, prediction, accuracy) => {
         return {image, imgProcessed, prediction, accuracy};
+    }
+
+    const createUserResult = (oldUserData, newResult) => {
+        return {
+            ...oldUserData,
+            results: [newResult, ...oldUserData.results]
+        }
     }
 
     const handlePredict = () => {
@@ -35,8 +45,8 @@ const NumberCanvas = ({handleNewResult}) => {
         result.then(response => response.json())
             .then(response => {
                 const {predicted, accuracy, base64ImgGenerated} = response
-                handleNewResult(
-                    createData(data, base64ImgGenerated, predicted, (accuracy*100).toFixed(2))
+                setUserResult((oldData) =>
+                    createUserResult(oldData, createResult(data, base64ImgGenerated, predicted, (accuracy * 100).toFixed(2)))
                 );
             })
             .catch(error => console.error('error', error));

@@ -4,6 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import {useRecoilValue} from "recoil";
+import {userState} from "../App";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,11 +16,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ButtonAppBar({name, ...props}) {
+export default function ButtonAppBar({history}) {
     const classes = useStyles();
+    const user = useRecoilValue(userState);
 
     const handleBack = () => {
-        props.history.push("/");
+        history.push("/");
     }
 
     return (
@@ -26,7 +29,7 @@ export default function ButtonAppBar({name, ...props}) {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        {name}
+                        {user.name}
                     </Typography>
                     <Button color="secondary" onClick={handleBack}>Back</Button>
                 </Toolbar>

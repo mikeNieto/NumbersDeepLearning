@@ -1,6 +1,5 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import {useForm} from "react-hook-form";
@@ -9,6 +8,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Paper from "@material-ui/core/Paper";
+import {useSetRecoilState} from "recoil";
+import {userState} from "../App";
+import {PersonOutline} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -20,28 +22,37 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
         margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: theme.palette.primary.main,
     },
     submit: {
         margin: theme.spacing(3, 0, 1),
     },
 }));
 
-export default function Login({handleAddName, ...props}) {
+export default function Login({history}) {
     const classes = useStyles();
     const {register, handleSubmit} = useForm();
+    const setUserName = useSetRecoilState(userState);
+
+    const createNewUserName = (oldData, newValue) => {
+        return {
+            name: newValue,
+            results: []
+        }
+    }
 
     const startApp = (data) => {
-        handleAddName(data.name);
-        props.history.push("/predictor");
+        setUserName((oldData) => createNewUserName(oldData, data.name));
+        history.push("/predictor");
     }
+
 
     return (
         <Grid container className={classes.root} justify={"center"}>
             <Grid>
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
+                        <PersonOutline/>
                     </Avatar>
                     <form className={classes.form} onSubmit={handleSubmit(startApp)}>
                         <TextField

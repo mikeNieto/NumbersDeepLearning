@@ -11,6 +11,9 @@ import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
+import {useRecoilValue} from "recoil";
+import {userState} from "../App";
+
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -26,8 +29,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Results = ({res}) => {
+const Results = () => {
     const classes = useStyles();
+    const user = useRecoilValue(userState);
+
 
     return (
         <Card className={classes.card}>
@@ -49,7 +54,7 @@ const Results = ({res}) => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {res.map((row) => (
+                                {user.results.slice(0, 5).map((row) => (
                                     <TableRow key={row.image}>
                                         <TableCell align="center"><img width="28" height="28" src={row.image}
                                                                        alt={"saved"}/></TableCell>
