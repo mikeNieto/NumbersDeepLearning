@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse, abort
 
-from .predictor import predict_number
+from predictor import predict_number
 
 app = Flask(__name__)
 api = Api(app)
@@ -37,3 +37,6 @@ class HelloWorld(Resource):
 
 
 api.add_resource(HelloWorld, '/numbers/predict')
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0")

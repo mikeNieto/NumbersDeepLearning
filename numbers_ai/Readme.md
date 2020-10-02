@@ -2,8 +2,16 @@
 
 
 
-## IntelliJ - PyCharm Configuration
-In _File / Project Structure..._ select as a Project SDK a new folder venv in 
+### To run the app with Docker locally
+- Build docker image
+`docker build -t numbersai .`
+
+- Run locally
+`docker run --rm --name numbersai -p 5000:5000 numbersai`
+
+
+### IntelliJ - PyCharm Configuration
+In _File / Project Structure..._ select as a Project SDK a new folder venv in
 the same folder of the project
 
 <img src="../images/IDE-Python-SDK.png" alt="IDE - Python - SDK">
