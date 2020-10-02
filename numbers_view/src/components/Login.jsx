@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Login(props) {
+export default function Login({handleAddName, ...props}) {
     const classes = useStyles();
     const {register, handleSubmit} = useForm();
 
     const startApp = (data) => {
-        console.log(data.name);
+        handleAddName(data.name);
         props.history.push("/predictor");
     }
 

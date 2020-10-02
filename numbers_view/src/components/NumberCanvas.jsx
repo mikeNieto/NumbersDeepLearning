@@ -12,11 +12,11 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: theme.spacing(4, 6),
+        padding: theme.spacing(4),
     },
 }));
 
-const NumberCanvas = props => {
+const NumberCanvas = ({handleNewResult}) => {
     const classes = useStyles();
     let canvas;
 
@@ -24,15 +24,20 @@ const NumberCanvas = props => {
         canvas.clear();
     }
 
+    const createData = (image, imgProcessed, prediction, accuracy) => {
+        return {image, imgProcessed, prediction, accuracy};
+    }
+
     const handlePredict = () => {
         const data = canvas.canvasContainer.children[1].toDataURL();
 
         const result = callRecognizeService("Mike", JSON.stringify(data).replace(/"/g, ""));
         result.then(response => response.json())
-            .then(result =>  {
-                const {predicted} = result
-                console.log(result);
-                alert(predicted)
+            .then(response => {
+                const {predicted, accuracy, base64ImgGenerated} = response
+                handleNewResult(
+                    createData(data, base64ImgGenerated, predicted, (accuracy*100).toFixed(2))
+                );
             })
             .catch(error => console.error('error', error));
 
@@ -40,36 +45,33 @@ const NumberCanvas = props => {
     }
 
     return (
-        <div>
-            <Paper className={classes.paper}>
-                <CanvasDraw
-                    ref={canvasDraw => (canvas = canvasDraw)}
-                    brushColor={"blue"}
-                    lazyRadius={0}
-                    canvasWidth={300}
-                    canvasHeight={300}
-                />
-                <ButtonGroup disableElevation variant="contained">
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="secondary"
-                        onClick={handleClean}
-                    >
-                        Clear
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="contained"
-                        color="primary"
-                        onClick={handlePredict}
-                    >
-                        Predict
-                    </Button>
-                </ButtonGroup>
-            </Paper>
-
-        </div>
+        <Paper className={classes.paper}>
+            <CanvasDraw
+                ref={canvasDraw => (canvas = canvasDraw)}
+                brushColor={"blue"}
+                lazyRadius={0}
+                canvasWidth={300}
+                canvasHeight={300}
+            />
+            <ButtonGroup disableElevation variant="contained">
+                <Button
+                    type="button"
+                    variant="contained"
+                    color="secondary"
+                    onClick={handleClean}
+                >
+                    Clear
+                </Button>
+                <Button
+                    type="button"
+                    variant="contained"
+                    color="primary"
+                    onClick={handlePredict}
+                >
+                    Predict
+                </Button>
+            </ButtonGroup>
+        </Paper>
     );
 };
 
