@@ -2,13 +2,15 @@
 
 
 
-### To run the app with Docker locally
+### To run the app with Docker
 - Build docker image
-`docker build -t numbersai .`
+`docker build -t mikenieto/numbersai .`
 
 - Run locally
-`docker run --rm --name numbersai -p 5000:5000 numbersai`
+`docker run --rm --name mikenieto/numbersai -p 5000:5000 numbersai`
 
+-- Push image
+`docker push mikenieto/numbersai`
 
 ### IntelliJ - PyCharm Configuration
 In _File / Project Structure..._ select as a Project SDK a new folder venv in

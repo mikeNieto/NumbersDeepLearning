@@ -26,3 +26,13 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
+
+## To run the app with Docker
+- Build docker image
+`docker build -t mikenieto/numbersview .`
+
+- Run locally
+`docker run --rm --name numbersview -p 80:80 mikenieto/numbersview`
+
+-- Push image
+`docker push mikenieto/numbersview`
