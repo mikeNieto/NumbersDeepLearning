@@ -7,7 +7,7 @@
 `docker build -t mikenieto/numbersai .`
 
 - Run locally
-`docker run --rm --name mikenieto/numbersai -p 5000:5000 numbersai`
+`docker run --rm --name numbersai -p 5000:5000 mikenieto/numbersai`
 
 -- Push image
 `docker push mikenieto/numbersai`

@@ -1,0 +1,60 @@
+version: '2.4'
+
+services:
+  mongo:
+    image: mongo:4.4.0
+    volumes:
+     - ./mongo-data:/data/db
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    networks:
+      - numbers
+
+  numbersai:
+    image: mikenieto/numbersai
+    mem_limit: 200m
+    mem_reservation: 200m
+    restart: always
+    ports:
+      - 5000:5000
+    networks:
+      - numbers
+    depends_on:
+      - mongo
+
+  numbersservices:
+    image: mikenieto/numbersservices
+    mem_limit: 200m
+    mem_reservation: 200m
+    restart: always
+    environment:
+      JVM_OPTS: -Xmx64m -Xss256k -XX:MaxMetaspaceSize=128k
+    ports:
+      - 8080:8080
+    networks:
+      - numbers
+    depends_on:
+      - mongo
+      - numbersai
+      
+  numbersview:
+    image: mikenieto/numbersview
+    mem_limit: 200m
+    mem_reservation: 200m
+    restart: always
+    ports:
+      - 80:80
+    networks:
+      - numbers
+    depends_on:
+      - mongo
+      - numbersai
+      - numbersservices
+      
+networks:
+  numbers:
+    driver: bridge
